@@ -1,0 +1,35 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  push:
+    branches: [ main ]
+  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Python Script
+      run: |
+        python src/main.py
+
+    - name: Commit Changes
+      run: |
+        git config --global user.email "joaorafaelbt@gmail.com"
+        git config --global user.name "João Rafael"
+        git commit -am "Atualizando dados"
+        git push
