@@ -5,16 +5,16 @@ on:
     - cron: '0 6 * * *'
   push:
     branches: [ main ]
-  
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v2
       with:
         python-version: '3.10'
 
@@ -27,9 +27,16 @@ jobs:
       run: |
         python src/main.py
 
-    - name: Commit Changes
+    - name: Configure Git
       run: |
         git config --global user.email "joaorafaelbt@gmail.com"
         git config --global user.name "João Rafael"
-        git commit -am "Atualizando dados"
+
+    - name: Commit Changes
+      run: |
+        git add .
+        git commit -m "Atualizando dados"
         git push
+
+    env:
+      GITHUB_TOKEN: ${{ secrets.TOKEN }}
