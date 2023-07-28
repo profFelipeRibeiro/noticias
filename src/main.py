@@ -361,7 +361,7 @@ data = {
 
 df_noticias = pd.DataFrame(data)
 
-caminho = '/Users/feliperibeiro/Downloads/'
+caminho = ''
 
 
 # Monta o conteúdo do arquivo HTML
