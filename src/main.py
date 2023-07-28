@@ -341,65 +341,14 @@ for i in range(0,tam_noticias):
             resumo_bullet_points = create_bullet_points(conteudo_noticia, num_points=7)
             for point in resumo_bullet_points:
                 texto_resumido = texto_resumido + point
+            noticias_sem_duplicatas.loc[i,'resumo'] = texto_resumido
             #print(texto_resumido)
-        
-            response = openai.Completion.create(
-              engine='text-davinci-003',
-              prompt='Faça o resumo destes bullet points desta notícia: ' + texto_resumido,
-              temperature=0.1,
-              max_tokens=1000
-            )
-
-            reply = response.choices[0].text.strip()
-            
-            print("--- RESUMO POR IA ---")
-            print(reply)
-            noticias_sem_duplicatas.loc[i,'resumo'] = reply
-            
-            
-            response = openai.Completion.create(
-              engine='text-davinci-003',
-              prompt="Em uma escala de -100 até 100, sendo -100 para 100% negativo ou tristeza ou desolação ou desanimador e +100 para  positivo ou alegre ou 100% feliz ou empolgante para o texto a seguir, qual nota seria? Retorne somente a nota. " + reply,
-              temperature=0.1,
-              max_tokens=1000
-            )
-
-            reply = response.choices[0].text.strip()
-            reply
-
-            nota = int(reply)
-            noticias_sem_duplicatas.loc[i,'nota'] = nota
-            print(nota)
-
-            if nota>=-100 and nota < -75:
-                resposta_emoji = "😭" #(Super negativo ou triste ou desolador)
-            if nota>=-75 and nota < -50:
-                resposta_emoji = "😢" #(Negativo ou triste)
-            if nota>=-50 and nota < -25:
-                resposta_emoji = "😞" #(Triste ou desanimado)
-            if nota>=-25 and nota < 0:
-                resposta_emoji = "🙁" #(Um pouco triste ou insatisfeito)
-            if nota>=0 and nota < 25:
-                resposta_emoji = "😐" #(Neutro)
-            if nota>=25 and nota < 50:
-                resposta_emoji = "🙂" #(Um pouco positivo ou satisfeito)
-            if nota>=50 and nota < 75:
-                resposta_emoji = "😄" #(Feliz ou empolgado)
-            if nota>=75 and nota <= 100:
-                resposta_emoji = "😍"  #(Muito feliz ou animado)
-
-            noticias_sem_duplicatas.loc[i,'emoji'] = resposta_emoji
-            print("Sentimento da notítica:" + resposta_emoji)
-
-            
+ 
         except:
             foo = "WASD"
     else:
         print(f"Não foi possível acessar a página. Status code: {response.status_code}")
     print(link_final)
-    
-
-import pandas as pd
 
 # Exemplo de DataFrame com as informações das notícias
 data = {
@@ -428,7 +377,6 @@ html_content = """<!DOCTYPE html>
 
 # Itera sobre as linhas da DataFrame e monta as notícias em HTML
 for _, linha in noticias_sem_duplicatas.iterrows():
-    emoji = linha['emoji']
     manchete = linha['titulo']
     data = linha['data']
     resumo = linha['resumo']
@@ -437,7 +385,6 @@ for _, linha in noticias_sem_duplicatas.iterrows():
     palavras = linha['palavras']
 
     html_content += f"""        <li>
-            <small>{emoji}</small>
             <small> - </small>
             <small>Palavras chave: </small>
             <small>{palavras}</small>
