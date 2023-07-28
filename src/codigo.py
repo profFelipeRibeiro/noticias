@@ -1,6 +1,6 @@
 
 import datetime
-
+import os
 from datetime import datetime, timedelta
 
 # Obter o horário atual
@@ -26,10 +26,10 @@ from heapq import nlargest
 nltk.download('punkt')
 nltk.download('stopwords')
 
-
+OPEN_AI_KEY = os.getenv("OPEN_AI_KEY")
 
 import openai
-openai.api_key = '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'
+openai.api_key = OPEN_AI_KEY
 
 
 
@@ -499,7 +499,7 @@ html_content += """    </ul>
 """
 
 # Salva o conteúdo no arquivo noticias.html
-with open(caminho + "noticias_20230728.html", "w", encoding="utf-8") as arquivo_html:
+with open(caminho + "index.html", "w", encoding="utf-8") as arquivo_html:
     arquivo_html.write(html_content)
 
 print("Arquivo HTML com as notícias criado com sucesso!")
