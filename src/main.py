@@ -112,7 +112,7 @@ for palavras in range(0,tam_lista):
                 if conta ==0:
                     print(codigo_transformado)
                     noticias.loc[conta,'link']=codigo_transformado
-                    noticias.loc[conta,'palavra']  =palavra
+                    noticias.loc[conta,'palavra']=palavra
                     conta = conta + 1
                 else:
                     if codigo_transformado != noticias.loc[conta-1,'link']:
