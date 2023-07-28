@@ -137,31 +137,6 @@ noticias = noticias[~noticias['link'].str.contains('&page-')]
 noticias = noticias[~noticias['link'].str.contains('conteudo-de-marca')]
 
 
-import pandas as pd
-from datetime import datetime, timedelta
-
-import requests
-from bs4 import BeautifulSoup
-
-from urllib.parse import quote, quote_plus, unquote
-
-
-import nltk
-from nltk.tokenize import sent_tokenize
-from nltk.corpus import stopwords
-from nltk.probability import FreqDist
-from heapq import nlargest
-
-# Baixe os recursos necessários para o NLTK
-nltk.download('punkt')
-nltk.download('stopwords')
-
-
-
-import openai
-openai.api_key = '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'
-
-
 
 # Obter a data de hoje
 data_hoje = datetime.today().strftime('%Y-%m-%d')
